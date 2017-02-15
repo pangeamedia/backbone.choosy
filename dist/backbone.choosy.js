@@ -1,10 +1,10 @@
 'use strict';
 
-var _get = function get(_x13, _x14, _x15) { var _again = true; _function: while (_again) { var object = _x13, property = _x14, receiver = _x15; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x13 = parent; _x14 = property; _x15 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x13, _x14, _x15) { var _again = true; _function: while (_again) { var object = _x13, property = _x14, receiver = _x15; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x13 = parent; _x14 = property; _x15 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -56,7 +56,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         _createClass(Choosy, [{
             key: 'save',
             value: function save(attrs) {
-                var options = arguments[1] === undefined ? {} : arguments[1];
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
                 var chosenValue = this.model.attributes['_chosen'];
 
@@ -81,7 +81,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'choose',
             value: function choose() {
-                var options = arguments[0] === undefined ? {} : arguments[0];
+                var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
                 if (this.isChosen()) {
                     return;
@@ -103,7 +103,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'unchoose',
             value: function unchoose() {
-                var options = arguments[0] === undefined ? {} : arguments[0];
+                var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
                 if (!this.isChosen()) {
                     return;
@@ -170,12 +170,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'modelInChosen',
             value: function modelInChosen(model) {
-                return _.contains(_.keys(this.chosen), model.cid);
+                return _.includes(_.keys(this.chosen), model.cid);
             }
         }, {
             key: 'chooseNone',
             value: function chooseNone() {
-                var options = arguments[0] === undefined ? {} : arguments[0];
+                var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
                 if (this.getChosen().length === 0) {
                     return;
@@ -188,7 +188,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'addModel',
             value: function addModel(model) {
-                var options = arguments[1] === undefined ? {} : arguments[1];
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
                 this.chosen[model.cid] = model;
 
@@ -201,7 +201,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function removeModels() {
                 var _this3 = this;
 
-                var model = arguments[0] === undefined ? false : arguments[0];
+                var model = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
                 var models = model ? model : this.getChosen();
 
@@ -216,8 +216,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'triggerEvent',
             value: function triggerEvent() {
-                var event = arguments[0] === undefined ? false : arguments[0];
-                var options = arguments[1] === undefined ? {} : arguments[1];
+                var event = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
                 _.defaults(options, { silent: false });
 
@@ -232,7 +232,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'chooseById',
             value: function chooseById(id) {
-                var options = arguments[1] === undefined ? {} : arguments[1];
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
                 var model = this.collection.get(id);
 
@@ -246,13 +246,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     })();
 
     var SingleChooser = (function (_BaseChooser) {
+        _inherits(SingleChooser, _BaseChooser);
+
         function SingleChooser() {
             _classCallCheck(this, SingleChooser);
 
             _get(Object.getPrototypeOf(SingleChooser.prototype), 'constructor', this).apply(this, arguments);
         }
-
-        _inherits(SingleChooser, _BaseChooser);
 
         _createClass(SingleChooser, [{
             key: '_eventArg',
@@ -298,6 +298,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     })(BaseChooser);
 
     var MultiChooser = (function (_BaseChooser2) {
+        _inherits(MultiChooser, _BaseChooser2);
+
         function MultiChooser(collection) {
             var _this4 = this;
 
@@ -311,8 +313,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 _this4.collection[method] = _.bind(_this4[method], _this4);
             });
         }
-
-        _inherits(MultiChooser, _BaseChooser2);
 
         _createClass(MultiChooser, [{
             key: '_eventArg',
@@ -380,7 +380,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function chooseAll() {
                 var _this7 = this;
 
-                var options = arguments[0] === undefined ? {} : arguments[0];
+                var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
                 if (!_.difference(this.collection.models, this.getChosen()).length) {
                     return;
@@ -392,22 +392,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 this.triggerEvent(false, options);
             }
-        }, {
-            key: 'chooseByIds',
 
             /*chooseNone(options = {}) {
                 if (this.getChosen().length === 0) {
                     return;
                 }
-                  this.removeModels();
-                  this.triggerEvent(false, options);
+                 this.removeModels();
+                 this.triggerEvent(false, options);
             }*/
 
+        }, {
+            key: 'chooseByIds',
             value: function chooseByIds() {
                 var _this8 = this;
 
-                var ids = arguments[0] === undefined ? [] : arguments[0];
-                var options = arguments[1] === undefined ? {} : arguments[1];
+                var ids = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+                var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
                 _.defaults(options, { chooseNone: true });
 
