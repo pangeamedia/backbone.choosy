@@ -136,7 +136,7 @@
         }
 
         modelInChosen(model) {
-            return _.contains(_.keys(this.chosen), model.cid);
+            return _.includes(_.keys(this.chosen), model.cid);
         }
 
         chooseNone(options = {}) {
